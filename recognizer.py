@@ -78,8 +78,8 @@ class recognizer(object):
         self.asr.set_property('configured', True)
         self.asr.set_property('dsratio', 1)
 
-        lm = '/media/sd_storage/hello/model/voice_cmd.lm'
-        dic = '/media/sd_storage/hello/model/voice_cmd.dic'
+        lm = './model/voice_cmd.lm'
+        dic = './model/voice_cmd.dic'
 
         self.asr.set_property('lm', lm)
         self.asr.set_property('dict', dic)
