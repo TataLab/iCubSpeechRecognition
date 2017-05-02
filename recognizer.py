@@ -27,10 +27,22 @@ pygst.require('0.10')
 gobject.threads_init()
 import gst
 
-from std_msgs.msg import String
-from std_srvs.srv import *
+import ctypes
+
 import os
 import commands
+
+import yarp
+
+yarp.Network.init()
+
+rf = yarp.ResourceFinder()
+rf.setVerbose(True);
+rf.setDefaultContext("myContext");
+rf.setDefaultConfigFile("default.ini");
+
+p = yarp.BufferedPortBottle()
+p.open("/speech");
 
 class recognizer(object):
     """ GStreamer based speech recognizer. """
@@ -95,7 +107,8 @@ class recognizer(object):
 
     def shutdown(self):
         """ Delete any remaining parameters so they don't affect next launch """
-
+        p.close();
+        yarp.Network.fini();
         """ Shutdown the GTK thread. """
         gtk.main_quit()
 
@@ -137,10 +150,12 @@ class recognizer(object):
 
     def final_result(self, hyp, uttid):
         """ Insert the final result. """
-        msg = String()
-        msg.data = str(hyp.lower())
-        print msg
-    #    self.pub.publish(msg)
+        #    self.pub.publish(msg)
+        bottle = p.prepare()
+        bottle.clear()
+        bottle.add(hyp.encode('utf-8'))
+        print ("Sending", bottle.toString())
+        p.write()
 
 if __name__ == "__main__":
     start = recognizer()
