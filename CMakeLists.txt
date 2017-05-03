@@ -17,3 +17,6 @@ include_directories(
 # set up our program
 add_executable(continuous continuous.c)
 target_link_libraries(continuous ${POCKETSPHINX_LIBRARIES} ${SPHINXBASE_LIBRARIES} ${SPHINXAD_LIBRARIES})
+
+add_executable(recognize recognize.c)
+target_link_libraries(recognize ${POCKETSPHINX_LIBRARIES} ${SPHINXBASE_LIBRARIES} ${SPHINXAD_LIBRARIES})
