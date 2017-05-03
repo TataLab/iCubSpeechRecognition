@@ -23,7 +23,7 @@ include_directories(
 add_executable(continuous continuous.c)
 target_link_libraries(continuous ${POCKETSPHINX_LIBRARIES} ${SPHINXBASE_LIBRARIES} ${SPHINXAD_LIBRARIES})
 
-add_executable(recognize recognize.c)
+add_executable(recognize recognize.cpp)
 target_link_libraries(recognize ${POCKETSPHINX_LIBRARIES} ${SPHINXBASE_LIBRARIES} ${SPHINXAD_LIBRARIES})
 
 ADD_EXECUTABLE(sound_receiver sound_receiver.cpp)
