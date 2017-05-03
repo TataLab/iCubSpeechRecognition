@@ -2,12 +2,17 @@
 # Author: Paul Fitzpatrick
 # CopyPolicy: Released under the terms of the LGPLv2.1 or later, see LGPL.TXT
 # YARP needs CMake 2.8.9 or greater
+
 cmake_minimum_required(VERSION 2.8.9)
 
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake/Modules/")
 
 find_package(SphinxBase REQUIRED)
 find_package(PocketSphinx REQUIRED)
+
+FIND_PACKAGE(YARP REQUIRED)
+INCLUDE_DIRECTORIES(${YARP_INCLUDE_DIRS})
+LINK_LIBRARIES(${YARP_LIBRARIES})
 
 include_directories(
   ${SPHINXBASE_INCLUDE_DIRS}
@@ -20,3 +25,6 @@ target_link_libraries(continuous ${POCKETSPHINX_LIBRARIES} ${SPHINXBASE_LIBRARIE
 
 add_executable(recognize recognize.c)
 target_link_libraries(recognize ${POCKETSPHINX_LIBRARIES} ${SPHINXBASE_LIBRARIES} ${SPHINXAD_LIBRARIES})
+
+ADD_EXECUTABLE(sound_receiver sound_receiver.cpp)
+TARGET_LINK_LIBRARIES(sound_receiver ${YARP_LIBRARIES})
