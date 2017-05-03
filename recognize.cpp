@@ -40,12 +40,21 @@ int main(int argc, char *argv[]) {
   Network yarp;
   BufferedPort<Sound> p;
 
+  BufferedPort<Bottle> speechPort;
+  speechPort.open("/speech");
+
   p.open("/receiver");
   Network::connect("/grabber", "/receiver");
 
   while(1){
     decoded_speech = recognize(yarp, p);
-    printf("You Said: %s\n", decoded_speech);
+    Bottle& speech = speechPort.prepare();
+    speech.clear();
+    speech.addString(decoded_speech);
+
+    printf("Sending %s\n", speech.toString().c_str());
+    // send the message
+    speechPort.write(true);
 
    }
 }
