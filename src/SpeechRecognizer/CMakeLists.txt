@@ -19,5 +19,5 @@ include_directories(
   ${POCKETSPHINX_INCLUDE_DIRS}
 )
 
-add_executable(recognize recognize.cpp)
-target_link_libraries(recognize ${POCKETSPHINX_LIBRARIES} ${SPHINXBASE_LIBRARIES} ${SPHINXAD_LIBRARIES} ${YARP_LIBRARIES})
+add_executable(speech_recognizer src/speech_recognizer.cpp)
+target_link_libraries(speech_recognizer ${POCKETSPHINX_LIBRARIES} ${SPHINXBASE_LIBRARIES} ${SPHINXAD_LIBRARIES} ${YARP_LIBRARIES})
