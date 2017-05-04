@@ -30,8 +30,8 @@ int main(int argc, char *argv[]) {
 
   config = cmd_ln_init(NULL, ps_args(), TRUE,
   "-hmm", "/usr/local/share/pocketsphinx/model/en-us/en-us",
-  "-lm", "../../../model/voice_cmd.lm",
-  "-dict", "../../../model/voice_cmd.dic",
+  "-lm", "../../../model/icub_cmd.lm",
+  "-dict", "../../../model/icub_cmd.dic",
   "-logfn", "/dev/null",
      NULL);
 
