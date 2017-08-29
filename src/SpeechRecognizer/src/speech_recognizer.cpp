@@ -29,8 +29,10 @@ Sound *s;
 int main(int argc, char *argv[]) {
 
   config = cmd_ln_init(NULL, ps_args(), TRUE,
-  "-hmm", "/usr/local/share/pocketsphinx/model/en-us/en-us",
-  "-lm", "../../../model/icub_cmd.lm",
+  "-hmm", "../../../model/en-us-adapt",
+  //"-lm", "../../../model/icub_cmd.lm",
+  //"-jsgf", "../../../model/icub_cmd.gram",
+  "-fsg", "../../../model/icub_cmd.fsg",
   "-dict", "../../../model/icub_cmd.dic",
   "-logfn", "/dev/null",
      NULL);
@@ -43,11 +45,15 @@ int main(int argc, char *argv[]) {
   BufferedPort<Bottle> speechPort;
   speechPort.open("/speech");
 
-  p.open("/receiver");
-  Network::connect("/grabber", "/receiver");
+  p.open("/speechreceiver");
+  Network::connect("/filtered", "/speechreceiver");
 
   while(1){
     decoded_speech = recognize(yarp, p);
+
+    if(!decoded_speech)
+      continue;
+
     Bottle& speech = speechPort.prepare();
     speech.clear();
     speech.addString(decoded_speech);
@@ -84,6 +90,7 @@ const char * recognize(Network& yarp, BufferedPort<Sound>& p){
 
           if (!in_speech && utt_started) {
               ps_end_utt(ps);
+
               hyp = ps_get_hyp(ps, NULL );
               return hyp;
               break;
